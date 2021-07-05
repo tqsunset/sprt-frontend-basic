@@ -10,11 +10,12 @@ HTML과 CSS는 많은 내용이 코드아카데미에서 배운 내용과 같으
 ```
 the most popular CSS Framework for developing responsive and mobile-first websites
 ```
-- 자주 쓰이는 <b>CSS 형식의 템플릿</b>을 모아두어, 웹개발 시 편리하게 끌어다 쓸 수 있도록 한 일종의 도구모임(Framework)  
+- 자주 쓰이는 <b>CSS 형식의 템플릿</b>을 모아두어, 웹개발 시 편리하게 끌어다 쓸 수 있도록 한 일종의 <b>템플릿모음(Framework)</b>  
 - 웹개발에서 반복적으로 사용되는 코드들(e.g. 버튼, 로그인 입력 양식)를 템플릿으로 제공
 - 템플릿들의 조합으로 간편한 페이지 생성 가능
 
-## 3. 새로 배운 것들
+
+## 3. HTML/CSS 새로 배운 것들
 -  HTML/CSS 요소와 속성에 대한 정보는 [MDN](https://developer.mozilla.org/ko/docs/Web), [W3schools](https://www.w3schools.com/html/)를 참조
       
 - 자주 쓰이는 포맷이 분명하며 주로 함께 쓰이는 속성들을 기억해두면 좋다. 
@@ -33,4 +34,37 @@ the most popular CSS Framework for developing responsive and mobile-first websit
   }      
   ```
     
+## 4. Javascript
+- 자바와 자바스크립트의 관계는 코끼리와 바다코끼리의 그것과 같다. 전혀 다른 언어.
+   
+### 기초 문법
+- 변수 선언
+   ```
+   let a = 3;
+ 
+   let c = [1,2,3,4];                          //배열, c[0], c[1],....과 같이 접근 가능
+ 
+   let d = {'name' : 'bob', 'age' : 27}        //딕셔너리, d['name']과 같이 접근 가능
+   
+   d['height'] = 180;                          //딕셔너리의 요소 추가
+   ```
+- String 관련 메소드
+   ```
+   let myemail = 'sparta@gmail.com'
+   myemail.split('@')
+   //-> (2) ['sparta', 'gmail.com'] 과 같이 분리된 스트링을 배열로 반환
+   ```
+- 함수 선언
+   ```
+   function myFunction(p1, p2) {
+     return p1 * p2;                    // 이 함수의 리턴값
+   } 
+
+   myFunction = (p1, p2) => {           // Arrow function, 위와 같은 내용
+      return p1 * p2;
+      }
+
+   myFunction = (p1, p2) => p1 * p2;    // 더 짧은 Arrow function, 함수의 내용이 한 줄일 때에 사용가능 
+   ```
+
    
