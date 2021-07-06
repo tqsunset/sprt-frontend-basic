@@ -84,5 +84,5 @@ the most popular CSS Framework for developing responsive and mobile-first websit
 - 주요 함수
    -```console.log('안녕하세요')``` : 콘솔 문구 출력  
 
-## 4.1주차 과제
+## 4. 1주차 과제
 
