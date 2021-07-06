@@ -31,8 +31,10 @@ the most popular CSS Framework for developing responsive and mobile-first websit
   ```
   * {
       font-family: 'Stylish', sans-serif;
-  }      
+  }
   ```
+- margin
+
     
 ## 4. Javascript
 - 자바와 자바스크립트의 관계는 코끼리와 바다코끼리의 그것과 같다. 전혀 다른 언어.
@@ -66,5 +68,21 @@ the most popular CSS Framework for developing responsive and mobile-first websit
 
    myFunction = (p1, p2) => p1 * p2;    // 더 짧은 Arrow function, 함수의 내용이 한 줄일 때에 사용가능 
    ```
-
+- 함수의 실행
+   ```
+   function mysum(num1, num2){
+      alert('안녕!')
+      return num1+num2
+      }
    
+   > let num = mysum(1, 2)
+   // alert가 실행되고 발생한 팝업 메세지를 확인해야 return 1+2가 실행되면서 num에 값 3이 지정됨
+   ```
+- 반복문
+   - if ... else ..., for 구문은 다른 기본 언어들과 거의 동일
+
+- 주요 함수
+   -```console.log('안녕하세요')``` : 콘솔 문구 출력  
+
+## 4.1주차 과제
+
