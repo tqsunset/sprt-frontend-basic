@@ -85,4 +85,16 @@ the most popular CSS Framework for developing responsive and mobile-first websit
    -```console.log('안녕하세요')``` : 콘솔 문구 출력  
 
 ## 4. 1주차 과제
+<img src="Screenshot from 2021-07-07 01-40-22.png" alt="1주차 과제 결과물">
 
+### 새로 배운 점
+- img는 인라인 요소. display:block;으로 css 디스플레이 양식을 인라인에서 블록으로 바꿔주어야 margin과 같은 블록 전용 속성을 사용할 수 있다.
+- 나열된 div 간의 margin을 조절 시 기준이 필요함.
+-  
+-부트스트랩 form은 number type input을 지원한다. 그리고 도큐먼테이션에는 나와있지 않지만 다른 타입의 인풋들도 모두 지원될 것 같다. 
+-HTML/CSS와 달리 JS내에서 변수와 함수 이름에 -가 들어갈 수 없는 점을 주의. 
+-클래스 이름 지정 시 item-img, item-desc, btn-order와 같은 축약형 이름을 사용, 주로 통용되는 키워드가 있을 것으로 보임.
+
+
+### 궁금한 점
+- 부트스트랩 상에 지정된 클래스 이름을 사용하여 CSS 설정 오버라이딩이 가능한가? 가능하다고 해도 권장되는 방법인가?
