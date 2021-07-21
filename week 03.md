@@ -310,7 +310,7 @@ soup = BeautifulSoup(data.text, 'html.parser')
 
 ![](/home/gwlee/sparta-beginner/sprt-frontend-basic/img/db.png)
 
-1. ##### SQL
+1. ##### SQL 
 
    - 컬럼 항목들이 데이터베이스의 생성 시 결정됨, 컬럼 설계의 필요성
    - 운영 중 컬럼 변경이 어려움
@@ -326,11 +326,24 @@ soup = BeautifulSoup(data.text, 'html.parser')
 
    
 
+#### MongoDB의 구조
+
+![](/home/gwlee/sparta-beginner/sprt-frontend-basic/img/mongodb-structure.jpg)
+
+- 좌측이 SQL(RDBMS), 우측이 MongoDB의 구조이다.
+- SQL이 데이터베이스 - 테이블 - 열 - 칼럼 순의 구조인 것처럼 NoSQL에서는 동일한 구조를 가지지만 이름만 다르다.
+- MongoDB: 데이터베이스 - 콜렉션 - 도큐먼트 - 필드
+- CRUD 메소드 사용 시 `대상DB.대상콜렉션.메소드()`의 순으로 대상을 특정해준다.  
+
+
+
 #### pymongo를 통한 CRUD
 
 - CREATE에는 `insert`, READ는 `find`,  UPDATE는 `update`, DELETE는 `delete` 메소드를 사용한다.
 
-- 삽입(insert): `db.users.insert_one(dictionary)`
+- **삽입 (insert)**
+
+  - `db.collection.insert_one(dict)` : 하나의 딕셔너리를 database에 추가.
 
   ```python
   from pymongo import MongoClient           # pymongo를 임포트
@@ -346,63 +359,93 @@ soup = BeautifulSoup(data.text, 'html.parser')
 
   
 
-- 조회(read): `find()`
+- **조회(read)** 
+
+  - `list(db.collection.find(검색조건 dict,표시 키 dict))`: 검색조건에 맞는 데이터들에서 표시 키 dict에 해당하는 키값만 리턴.
+
+    - <u>검색조건 dict</u> 
+
+      예) `{'age':21}` 나이가 21인 데이터들을 모두 찾음
+
+    - <u>표시 키 dict</u> 
+
+      예) `{'_id':False} ` 모든 키의 표시 여부는 true로 기본 설정되어있고, 보지 않을 항목 '_id'만 False로 설정하여 출력 결과에 포함되지 않도록 함.
+
+      > ❗find()의 결과물은 pymongo 객체일뿐 이다. list( ) 함수로 한번 처리하여야 데이터 리스트를 얻을 수있다.
+
 
   ```python
-  from pymongo import MongoClient           # pymongo를 임포트 하기(패키지 인스톨 먼저 해야겠죠?)
-  client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
-  db = client.dbsparta                      # 'dbsparta'라는 이름의 db를 만듭니다.
-  
   # MongoDB에서 데이터 모두 보기
   all_users = list(db.users.find({}))
   
-  # 참고) MongoDB에서 특정 조건의 데이터 모두 보기
+  # MongoDB에서 특정 조건의 데이터 모두 보기
   same_ages = list(db.users.find({'age':21},{'_id':False}))
   
   print(all_users[0])         # 0번째 결과값을 보기
   print(all_users[0]['name']) # 0번째 결과값의 'name'을 보기
-  
-  for user in all_users:      # 반복문을 돌며 모든 결과값을 보기
-      print(user)
   ```
 
   
+
+  - `db.collection.find_one()`: 검색 조건에 맞는 데이터 <u>하나만</u> 반환, find와 같은 arg.를 가짐
 
   ```python
   user = db.users.find_one({'name':'bobby'})
   print(user)
   ```
 
-- 수정하기
+  
 
-  - **[코드스니펫] pymongo(update_one)**
+- **수정 (update)**
 
-    ```jsx
-    db.users.update_one({'name':'bobby'},{'$set':{'age':19}})
-    ```
+  - `db.collection.update_one(찾을조건 dict,{ '$set': 변경 내용 dict })`
 
   ```python
-  # 생김새
-  db.people.update_many(찾을조건,{ '$set': 어떻게바꿀지 })
-  
-  # 예시 - 오타가 많으니 이 줄을 복사해서 씁시다!
   db.users.update_one({'name':'bobby'},{'$set':{'age':19}})
   
-  user = db.users.find_one({'name':'bobby'})
-  print(user)
+  # db.users.update_many()도 있어서 여러 데이터를 한번에 수정 가능하나 위험함, 자주 사용되지 않음
   ```
 
-- 삭제하기 (거의 안 씀)
+- **삭제 (delete)**:
 
-  - **[코드스니펫] pymongo(delete_one)**
-
-    ```jsx
-    db.users.delete_one({'name':'bobby'})
-    ```
+  - `db.collection.delete_one(찾을조건 dict)`
 
   ```python
   db.users.delete_one({'name':'bobby'})
   
-  user = db.users.find_one({'name':'bobby'})
-  print(user)
+  # db.users.delete_many()도 있어서 여러 데이터를 한번에 수정 가능하나 위험함, 자주 사용되지 않음
   ```
+
+
+
+# 6. 웹스크래핑 결과 DB 저장
+
+```python
+import requests
+from bs4 import BeautifulSoup
+from pymongo import MongoClient
+
+# http 응답 얻고 적당한 parsing으로 리스트 구하기
+headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+data = requests.get('https://movie.naver.com/movie/sdb/rank/rmovie.nhn?sel=pnt&date=20200303',headers=headers)
+soup = BeautifulSoup(data.text, 'html.parser')
+trs = soup.select('#old_content > table > tbody > tr')
+
+# MongoDB와 연결하고 대상 데이터베이스를 찾음 
+client = MongoClient('localhost',27017)
+db = client.dbsparta
+
+# 반복문을 이용하여 리스트의 요소마다 필요한 정보를 parsing한다. 
+for tr in trs:
+    titles = tr.select_one('td.title > div > a')
+    points = tr.select_one('td.point')
+    if titles is not None:	
+        title = titles.text
+        point = points.text
+        movie = {					# parse된 정보를 딕셔너리 형태로 만든다.
+            'title': title,
+            'point': point	
+        }
+        db.movies.insert_one(movie)	# 생성된 딕셔너리를 이 데이터베이스의 movies 콜렉션에 추가한다.
+        print(title, point)			# (prob역할)	
+```
